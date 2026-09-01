@@ -37,14 +37,57 @@ public class TablaHash{
 	return l % 7;
     }
 
-    private void insertar(){
+    public void insertar(int key, String valor){
+        int indice = hash(key);
+	if (tabla[indice] == null) {
+		tabla[indice] = new ArrayList<>();
+	}
+	for (Nodo nodo : tabla[indice]) {
+	    if (nodo.getLlave() == key) {
+		nodo.valor = valor;
+		return;
+	    }
+	}
+	tabla[indice].add(new Nodo(key, valor));
+    }
+	    
+    public void buscar(int llave){
+	Nodo b = null;
+	int busca = hash(llave);
+	if(tabla[busca] == null)
+	    System.out.println("NOT_FOUND");
+	else{
+	    for(Nodo n: tabla[busca]){
+		if(n.getLlave() == llave){
+		    b = n;
+		    break;
+		}
+	    }
+	    if(b == null)
+		System.out.println("NOT_FOUND");
+	    else
+		System.out.println(busca + " -> " + b.getValor());
+	}
     }
 
-    private void buscar(){
+
+    public void eliminar(int llave){
+	int ind = hash(llave);
+	Nodo b = null;
+	if(tabla[ind] == null) {
+	    return;
+	} else {
+	    for(Nodo n: tabla[ind]){
+		if(n.getLlave() == llave){
+		    tabla[ind].remove(n);
+		    if(tabla[ind].isEmpty())
+			tabla[ind] = null;
+		    break;
+		}
+	    }
+	}
     }
 
-    private void eliminar(){
-    }
 
     @Override
     public String toString(){
